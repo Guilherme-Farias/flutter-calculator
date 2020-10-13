@@ -8,13 +8,32 @@ class Button extends StatelessWidget {
   final String text;
   final bool big;
   final Color color;
+  final void Function(String) cb;
 
-  const Button({@required this.text, this.big = false, this.color = DEFAULT});
-  const Button.big(
-      {@required this.text, this.big = true, this.color = DEFAULT});
-  const Button.operation(
-      {@required this.text, this.big = false, this.color = OPERATION});
-  const Button.dark({@required this.text, this.big = false, this.color = DARK});
+  const Button({
+    @required this.text,
+    this.big = false,
+    this.color = DEFAULT,
+    @required this.cb,
+  });
+  const Button.big({
+    @required this.text,
+    this.big = true,
+    this.color = DEFAULT,
+    @required this.cb,
+  });
+  const Button.operation({
+    @required this.text,
+    this.big = false,
+    this.color = OPERATION,
+    @required this.cb,
+  });
+  const Button.dark({
+    @required this.text,
+    this.big = false,
+    this.color = DARK,
+    @required this.cb,
+  });
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -29,7 +48,7 @@ class Button extends StatelessWidget {
             fontWeight: FontWeight.w200,
           ),
         ),
-        onPressed: () {},
+        onPressed: () => cb(text),
       ),
     );
   }
