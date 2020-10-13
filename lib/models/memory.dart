@@ -3,20 +3,32 @@ class Memory {
 
   final _buffer = [0.0, 0.0];
   int _bufferIndex = 0;
-  String operation;
+  String _operation;
   String _value = '0';
   bool _wipeValue = true;
+  String _lastCommand;
 
   String get value => _value;
 
   void applyCommand(String command) {
+    if (_isReplacingOperantion(command)) {
+      _operation = command;
+      return;
+    }
     if (command == 'AC') {
       _allClear();
     } else if (operations.contains(command)) {
       _setOperation(command);
-    } else {
+    } else
       _addDigit(command);
-    }
+    _lastCommand = command;
+  }
+
+  _isReplacingOperantion(String command) {
+    return _lastCommand != '=' &&
+        command != '=' &&
+        operations.contains(_lastCommand) &&
+        operations.contains(command);
   }
 
   _addDigit(String digit) {
@@ -32,15 +44,62 @@ class Memory {
     _wipeValue = false;
 
     _buffer[_bufferIndex] = double.tryParse(_value) ?? 0;
-    print(_buffer[_bufferIndex]);
+    print(_buffer);
   }
 
   _allClear() {
-    //_wipeValue = true;
+    _buffer.setAll(0, [0.0, 0.0]);
+    _bufferIndex = 0;
+    _operation = null;
     return this._value = '0';
   }
 
-  _setOperation(String command) {
-    _wipeValue = true;
+  _setOperation(String newOperation) {
+    bool isInvertSign = newOperation == '+/-';
+    bool isEqualSign = newOperation == '=';
+    if (isInvertSign)
+      _invertValue();
+    else if (_bufferIndex == 0) {
+      _operation = newOperation;
+      _bufferIndex = 1;
+      _wipeValue = true;
+    } else {
+      _buffer[0] = calculate();
+      _buffer[1] = 0.0;
+      this._value = _buffer[0].toString();
+    }
+
+    _turnIntoInteger();
+    _operation = isEqualSign ? null : newOperation;
+    _bufferIndex = isEqualSign || isInvertSign ? 0 : 1;
+
+    _wipeValue = !isEqualSign && !isInvertSign;
+  }
+
+  _turnIntoInteger() {
+    this._value =
+        _value.endsWith('.0') ? this._value.split('.')[0] : this._value;
+  }
+
+  _invertValue() {
+    _buffer[_bufferIndex] = double.tryParse(this._value) * -1;
+    this._value = (_buffer[_bufferIndex]).toString();
+  }
+
+  double calculate() {
+    switch (_operation) {
+      case '%':
+        return _buffer[0] % _buffer[1];
+      case '/':
+        return _buffer[0] / _buffer[1];
+      case 'x':
+        return _buffer[0] * _buffer[1];
+      case '-':
+        return _buffer[0] - _buffer[1];
+      case '+':
+        return _buffer[0] + _buffer[1];
+      default:
+        return _buffer[0];
+    }
   }
 }
