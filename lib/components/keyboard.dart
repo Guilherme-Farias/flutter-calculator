@@ -8,6 +8,7 @@ class Keyboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.black87,
       height: 500,
       child: Column(
         children: [
@@ -19,6 +20,7 @@ class Keyboard extends StatelessWidget {
               Button.operation(text: '/', cb: cb),
             ],
           ),
+          SizedBox(height: 1.2),
           ButtonRow(
             [
               Button(text: '7', cb: cb),
@@ -27,6 +29,7 @@ class Keyboard extends StatelessWidget {
               Button.operation(text: 'x', cb: cb),
             ],
           ),
+          SizedBox(height: 1.2),
           ButtonRow(
             [
               Button(text: '4', cb: cb),
@@ -35,6 +38,7 @@ class Keyboard extends StatelessWidget {
               Button.operation(text: '-', cb: cb),
             ],
           ),
+          SizedBox(height: 1.2),
           ButtonRow(
             [
               Button(text: '1', cb: cb),
@@ -43,6 +47,7 @@ class Keyboard extends StatelessWidget {
               Button.operation(text: '+', cb: cb),
             ],
           ),
+          SizedBox(height: 1.2),
           ButtonRow(
             [
               Button.big(text: '0', cb: cb),
