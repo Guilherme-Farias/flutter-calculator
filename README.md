@@ -1,6 +1,8 @@
 # Flutter Calculator
 
-A simple flutter calculator
+A simple flutter calculator based on the iphone calculator interface
+
+<img src='https://github.com/Guilherme-Farias/flutter-calculator/blob/master/assets/screenshot_calculator_app.png' height=500>
 
 ## Getting Started
 
