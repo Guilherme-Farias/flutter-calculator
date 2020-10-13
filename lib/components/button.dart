@@ -39,6 +39,7 @@ class Button extends StatelessWidget {
     return Expanded(
       flex: big ? 2 : 1,
       child: RaisedButton(
+        onPressed: () => cb(text),
         color: this.color,
         child: Text(
           text,
@@ -48,7 +49,6 @@ class Button extends StatelessWidget {
             fontWeight: FontWeight.w200,
           ),
         ),
-        onPressed: () => cb(text),
       ),
     );
   }
